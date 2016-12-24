@@ -1,0 +1,34 @@
+{
+  "name": "ts-node-starter",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "tsc": "tsc --outDir .dest",
+    "tsc:w": "tsc --outDir .dest --watch",
+    "build": "npm run tsc",
+    "build:w": "npm run tsc:w",
+    "start": "nodemon server.ts --exec ts-node"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/hapi": "^13.0.37",
+    "@types/joi": "^10.0.0",
+    "@types/lodash": "^4.14.36",
+    "@types/node": "^6.0.40",
+    "concurrently": "^2.2.0",
+    "nodemon": "^1.11.0",
+    "ts-node": "^1.7.0",
+    "typescript": "^2.1.1"
+  },
+  "dependencies": {
+    "core-js": "^2.4.1",
+    "hapi": "^16.0.2",
+    "joi": "^10.1.0",
+    "lodash": "^4.16.1",
+    "vcap_services": "^0.2.0",
+    "watson-developer-cloud": "^2.14.3"
+  }
+}
