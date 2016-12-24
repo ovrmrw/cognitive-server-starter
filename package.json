@@ -1,5 +1,5 @@
 {
-  "name": "ts-node-starter",
+  "name": "watson-server-starter",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -21,7 +21,7 @@
     "concurrently": "^2.2.0",
     "nodemon": "^1.11.0",
     "ts-node": "^1.7.0",
-    "typescript": "^2.1.1"
+    "typescript": "^2.1.4"
   },
   "dependencies": {
     "core-js": "^2.4.1",

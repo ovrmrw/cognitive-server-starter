@@ -12,6 +12,7 @@ server.connection({
   port: 4000
 });
 
+
 server.route({
   method: 'GET',
   path: '/',
@@ -30,6 +31,7 @@ server.route({
     });
   },
 });
+
 
 server.start((err) => {
   if (err) { throw err; }
