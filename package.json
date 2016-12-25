@@ -24,11 +24,12 @@
     "typescript": "^2.1.4"
   },
   "dependencies": {
+    "@google-cloud/translate": "^0.6.0",
+    "app-root-path": "^2.0.1",
     "core-js": "^2.4.1",
     "hapi": "^16.0.2",
     "joi": "^10.1.0",
     "lodash": "^4.16.1",
-    "vcap_services": "^0.2.0",
     "watson-developer-cloud": "^2.14.3"
   }
 }

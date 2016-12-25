@@ -3,8 +3,8 @@ import 'core-js';
 import * as Hapi from 'hapi';
 import * as Joi from 'joi';
 
-import { authService, authConfig } from './auth';
-
+import { getWatsonSpeechToTextToken } from './watson/speech-to-text';
+import { translate } from './gcp/translator';
 
 const server = new Hapi.Server();
 server.connection({
@@ -26,12 +26,23 @@ server.route({
 
 server.route({
   method: 'GET',
-  path: '/api/token',
+  path: '/api/watson/speech-to-text/token',
   handler: (request, reply) => {
-    authService.getToken({ url: authConfig.url }, (err, token) => {
-      if (err) { throw err; }
-      reply({ token });
-    });
+    getWatsonSpeechToTextToken()
+      .then(obj => reply(obj))
+      .catch(err => { throw err; });
+  },
+});
+
+server.route({
+  method: 'GET',
+  path: '/api/gcp/translator/{translateTo}/{text}',
+  handler: (request, reply) => {
+    const text = request.params['text'];
+    const translateTo = request.params['translateTo'];
+    translate(text, translateTo)
+      .then(obj => reply(obj))
+      .catch(err => { throw err; });
   },
 });
 
