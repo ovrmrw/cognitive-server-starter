@@ -7,13 +7,16 @@ Server-side app for cognitive services.
 
 ```
 http://localhost:4000/api/watson/speech-to-text/token
+
 ⇒ {"token":"GIWsdvQ2qn2kwu3lh....."}
 ```
 
 ### Getting GCP Translation
 
 ```
-http://localhost:4000/api/gcp/translator/ja/hello
+http://localhost:4000/api/gcp/translator
+body: {"text":"hello", "translateTo":"ja"}
+
 ⇒ {"translation":"こんにちは"}
 ```
 

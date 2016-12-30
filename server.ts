@@ -43,11 +43,11 @@ server.route({
 
 
 server.route({
-  method: 'GET',
-  path: '/api/gcp/translator/{translateTo}/{text}',
+  method: 'POST',
+  path: '/api/gcp/translator',
   handler: (request, reply) => {
-    const text = request.params['text'];
-    const translateTo = request.params['translateTo'];
+    const text = request.payload['text'];
+    const translateTo = request.payload['translateTo'];
 
     gcpTranslate(text, translateTo)
       .then(obj => reply(obj))
@@ -55,7 +55,7 @@ server.route({
   },
   config: {
     validate: {
-      params: {
+      payload: {
         text: Joi.string().min(1).required(),
         translateTo: Joi.string().min(2).max(2).required(),
       }
