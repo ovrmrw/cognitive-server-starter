@@ -11,7 +11,7 @@ http://localhost:4000/api/watson/speech-to-text/token
 ⇒ {"token":"GIWsdvQ2qn2kwu3lh....."}
 ```
 
-### Getting GCP Translation
+### Getting Google Cloud Translation
 
 ```
 http://localhost:4000/api/gcp/translator
@@ -30,6 +30,8 @@ $ npm install
 ## Run (ts files directly)
 ```
 $ npm start
+or
+$ npm run s
 ```
 
 ## Build JS files
