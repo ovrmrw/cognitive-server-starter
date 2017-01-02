@@ -4,7 +4,7 @@ import * as Joi from 'joi';
 
 import { getWatsonSpeechToTextToken } from './watson/speech-to-text';
 import { gcpTranslate } from './gcp/translator';
-import { microsoftTranslate } from './microsoft/translator-text';
+import { mcsTranslate } from './mcs/translator-text';
 import { tokenSchema, translationSchema } from './schema';
 
 
@@ -70,12 +70,12 @@ server.route({
 
 server.route({
   method: 'POST',
-  path: '/api/microsoft/translator',
+  path: '/api/mcs/translator',
   handler: (request, reply) => {
     const text = request.payload['text'];
     const translateTo = request.payload['translateTo'];
 
-    microsoftTranslate(text, translateTo)
+    mcsTranslate(text, translateTo)
       .then(obj => reply(obj))
       .catch(err => { throw err; });
   },

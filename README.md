@@ -3,7 +3,7 @@ Server-side app for cognitive services.
 
 ---
 
-### Getting Watson Speech-to-Text Token
+### Watson Speech-to-Text - Get Token
 
 ```
 http://localhost:4000/api/watson/speech-to-text/token
@@ -11,7 +11,7 @@ http://localhost:4000/api/watson/speech-to-text/token
 ⇒ {"token":"GIWsdvQ2qn2kwu3lh....."}
 ```
 
-### Getting Google Cloud Translation
+### Google Cloud Translator - Get Translation
 
 ```
 http://localhost:4000/api/gcp/translator
@@ -20,10 +20,10 @@ body: {"text":"hello", "translateTo":"ja"}
 ⇒ {"translation":"こんにちは"}
 ```
 
-### Getting Microsoft Translation
+### Microsoft Cognitive Services Translator-Text - Get Translation
 
 ```
-http://localhost:4000/api/microsoft/translator
+http://localhost:4000/api/mcs/translator
 body: {"text":"hello", "translateTo":"ja"}
 
 ⇒ {"translation":"こんにちは"}

@@ -57,43 +57,34 @@ function getToken(): Promise<string> {
 }
 
 
+export function mcsTranslate(text: string, translateTo: string): Promise<TranslationObject> {
+  return new Promise<TranslationObject>((resolve, reject) => {
+    const translateFrom = translateTo === 'ja' ? 'en' : 'ja';
 
-export async function microsoftTranslate(text: string, translateTo: string): Promise<TranslationObject> {
-  const translateFrom = translateTo === 'ja' ? 'en' : 'ja';
-
-  try {
-    const _accessToken = await getToken();
-
-    // request.getでbodyを取得する。accessTokenがないとエラーになる。awaitでPromiseを待機する。
-    const body = await new Promise<string>((resolve, reject) => {
-      request(
-        {
+    getToken()
+      .then(token => {
+        // request.getでbodyを取得する。accessTokenがないとエラーになる。awaitでPromiseを待機する。
+        request({
           method: 'get',
           url: 'http://api.microsofttranslator.com/v2/Http.svc/Translate' + `?text=${encodeURI(text)}&from=${translateFrom}&to=${translateTo}`,
           headers: {
-            'Authorization': 'Bearer ' + _accessToken
+            'Authorization': 'Bearer ' + token
           }
         }, (err, res, body) => {
           if (err) { reject(err); }
-          resolve(body);
-        });
-    });
 
-    // 取得したbodyはXMLなのでパースする必要がある。awaitでPromiseを待機する。
-    const translation = await new Promise<string>((resolve, reject) => {
-      parseString(body, (err, result) => {
-        if (err) { reject(err); }
-        console.log(body, '↓ parsing XML to JS object');
-        console.log(result);
-        resolve(result.string._);
+          // 取得したbodyはXMLなのでパースする必要がある。awaitでPromiseを待機する。      
+          parseString(body, (err, result) => {
+            if (err) { reject(err); }
+            console.log(body, '↓ parsing XML to JS object');
+            console.log(result);
+            const translation: string = result.string._;
+            console.log('MCS Translation: ' + translation); // 翻訳結果の表示。
+            resolve({ translation });
+          });
+        });
       });
-    });
-    console.log('Translation: ' + translation); // 翻訳結果の表示。
-    return { translation };
-  } catch (err) {
-    console.error(err);
-    return { translation: err.message || err };
-  }
+  });
 }
 
 

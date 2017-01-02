@@ -15,7 +15,7 @@ export function gcpTranslate(text: string, translateTo: string = 'ja'): Promise<
   return new Promise<TranslationObject>((resolve, reject) => {
     gct.translate(text, translateTo, (err, translation: string) => {
       if (err) { reject(err); }
-      console.log('Translation:', translation);
+      console.log('GCP Translation:', translation);
       resolve({ translation });
     });
   });
