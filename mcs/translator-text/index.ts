@@ -1,10 +1,5 @@
-/*
-  TODO: このAPIは2017年3月31日で廃止になるため、それまでに新APIで書き直すこと。
-*/
-
 import {
-  ClientId as client_id,
-  ClientSecret as client_secret
+  mcsTranslatorTextSecretKey,
 } from '../../config';
 
 import * as request from 'request';
@@ -15,33 +10,23 @@ let accessToken: string = '';
 let tokenTimestamp: number = 0;
 
 
-async function requestToken(): Promise<string> {
-  try {
-    // request.postでbodyを取得する。awaitでPromiseを待機する。
-    const body = await new Promise<string>((resolve, reject) => {
-      request({
-        method: 'post',
-        url: 'https://datamarket.accesscontrol.windows.net/v2/OAuth2-13',
-        form: {
-          grant_type: 'client_credentials',
-          client_id,
-          client_secret,
-          scope: 'http://api.microsofttranslator.com'
-        }
-      }, (err, res, body) => {
-        if (err) { reject(err); }
-        resolve(body);
-      });
+function requestToken(): Promise<string> {
+  return new Promise<string>((resolve, reject) => {
+    request({
+      method: 'post',
+      url: 'https://api.cognitive.microsoft.com/sts/v1.0/issueToken',
+      headers: {
+        'Ocp-Apim-Subscription-Key': mcsTranslatorTextSecretKey,
+      }
+    }, (err, res, body) => {
+      if (err) { reject(err); }
+
+      accessToken = body;
+      tokenTimestamp = new Date().getTime();
+      console.log('Access Token:', accessToken);
+      resolve(accessToken);
     });
-    // request.postで取得したbodyからaccess_tokenを取得する。
-    accessToken = JSON.parse(body)['access_token'];
-    tokenTimestamp = new Date().getTime();
-    console.log('Access Token:', accessToken);
-    return accessToken;
-  } catch (err) {
-    console.error(err);
-    return accessToken;
-  }
+  });
 }
 
 
@@ -63,7 +48,6 @@ export function mcsTranslate(text: string, translateTo: string): Promise<Transla
 
     getToken()
       .then(token => {
-        // request.getでbodyを取得する。accessTokenがないとエラーになる。awaitでPromiseを待機する。
         request({
           method: 'get',
           url: 'http://api.microsofttranslator.com/v2/Http.svc/Translate' + `?text=${encodeURI(text)}&from=${translateFrom}&to=${translateTo}`,
@@ -73,9 +57,10 @@ export function mcsTranslate(text: string, translateTo: string): Promise<Transla
         }, (err, res, body) => {
           if (err) { reject(err); }
 
-          // 取得したbodyはXMLなのでパースする必要がある。awaitでPromiseを待機する。      
+          // 取得したbodyはXMLなのでパースする必要がある。
           parseString(body, (err, result) => {
             if (err) { reject(err); }
+
             console.log(body, '↓ parsing XML to JS object');
             console.log(result);
             const translation: string = result.string._;
@@ -83,7 +68,8 @@ export function mcsTranslate(text: string, translateTo: string): Promise<Transla
             resolve({ translation });
           });
         });
-      });
+      })
+      .catch(err => reject(err));
   });
 }
 

@@ -18,8 +18,7 @@ export const translatorKeyFilename = path.join(appRoot, 'secret', 'jserinfo-d84d
 
 
 ////////////////////////// Microsoft Translator Text
-const azureDataMarketJsonPath = path.join(appRoot, 'secret', 'azureDataMarket.json'); // make sure this file exists.
-const azureDataMarket = JSON.parse(fs.readFileSync(azureDataMarketJsonPath, 'utf8'));
+const mcsTranslatorTextJsonPath = path.join(appRoot, 'secret', 'mcs-translator-text.json'); // make sure this file exists.
+const mcsTranslatorText = JSON.parse(fs.readFileSync(mcsTranslatorTextJsonPath, 'utf8'));
 
-export const ClientId: string = azureDataMarket.ClientId;
-export const ClientSecret: string = azureDataMarket.ClientSecret;
+export const mcsTranslatorTextSecretKey: string = mcsTranslatorText.secretKey;
