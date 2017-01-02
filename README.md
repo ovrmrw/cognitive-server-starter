@@ -20,6 +20,15 @@ body: {"text":"hello", "translateTo":"ja"}
 ⇒ {"translation":"こんにちは"}
 ```
 
+### Getting Microsoft Translation
+
+```
+http://localhost:4000/api/microsoft/translator
+body: {"text":"hello", "translateTo":"ja"}
+
+⇒ {"translation":"こんにちは"}
+```
+
 ---
 
 ## Setup
