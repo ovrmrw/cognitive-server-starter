@@ -40,3 +40,5 @@ jspm_packages
 .dest*
 .tscOutDir
 /secret
+.DS_Store
+
