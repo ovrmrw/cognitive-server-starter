@@ -1,4 +1,3 @@
-import 'core-js';
 import * as Hapi from 'hapi';
 import * as Joi from 'joi';
 
@@ -7,93 +6,113 @@ import { gcpTranslate } from './gcp/translator';
 import { mcsTranslate } from './mcs/translator-text';
 import { tokenSchema, translationSchema } from './schema';
 
-
-const server = new Hapi.Server();
-server.connection({
+const server = new Hapi.Server({
   host: '0.0.0.0',
-  port: 4000,
-  routes: {
-    cors: true,
-  },
+  port: 4000
 });
-
 
 server.route({
   method: 'GET',
   path: '/',
-  handler: function (request, reply) {
-    reply('Hello');
+  handler: function(request, h) {
+    return 'Hello';
+  },
+  options: {
+    cors: {
+      origin: ['*']
+    }
   }
 });
-
 
 server.route({
   method: 'GET',
   path: '/api/watson/speech-to-text/token',
-  handler: (request, reply) => {
-    getWatsonSpeechToTextToken()
-      .then(obj => reply(obj))
-      .catch(err => { throw err; });
+  handler: (request, h) => {
+    return getWatsonSpeechToTextToken()
+      .then(obj => obj)
+      .catch(err => {
+        throw err;
+      });
   },
-  config: {
+  options: {
     response: {
       schema: tokenSchema
+    },
+    cors: {
+      origin: ['*']
     }
   }
 });
-
 
 server.route({
   method: 'POST',
   path: '/api/gcp/translator',
-  handler: (request, reply) => {
+  handler: (request, h) => {
     const text = request.payload['text'];
     const translateTo = request.payload['translateTo'];
 
-    gcpTranslate(text, translateTo)
-      .then(obj => reply(obj))
-      .catch(err => { throw err; });
+    return gcpTranslate(text, translateTo)
+      .then(obj => obj)
+      .catch(err => {
+        throw err;
+      });
   },
-  config: {
+  options: {
     validate: {
       payload: {
-        text: Joi.string().min(1).required(),
-        translateTo: Joi.string().min(2).max(2).required(),
+        text: Joi.string()
+          .min(1)
+          .required(),
+        translateTo: Joi.string()
+          .min(2)
+          .max(2)
+          .required()
       }
     },
     response: {
       schema: translationSchema
+    },
+    cors: {
+      origin: ['*']
     }
   }
 });
-
 
 server.route({
   method: 'POST',
   path: '/api/mcs/translator',
-  handler: (request, reply) => {
+  handler: (request, h) => {
     const text = request.payload['text'];
     const translateTo = request.payload['translateTo'];
 
-    mcsTranslate(text, translateTo)
-      .then(obj => reply(obj))
-      .catch(err => { throw err; });
+    return mcsTranslate(text, translateTo)
+      .then(obj => obj)
+      .catch(err => {
+        throw err;
+      });
   },
-  config: {
+  options: {
     validate: {
       payload: {
-        text: Joi.string().min(1).required(),
-        translateTo: Joi.string().min(2).max(2).required(),
+        text: Joi.string()
+          .min(1)
+          .required(),
+        translateTo: Joi.string()
+          .min(2)
+          .max(2)
+          .required()
       }
     },
     response: {
       schema: translationSchema
+    },
+    cors: {
+      origin: ['*']
     }
   }
 });
 
-
-server.start((err) => {
-  if (err) { throw err; }
-  console.log(`Server running at: ${server.info.uri}`);
-});
+server
+  .start()
+  .then(() => console.log(`Server running at: ${server.info.uri}`))
+  .catch(console.error);

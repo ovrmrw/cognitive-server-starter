@@ -15,24 +15,26 @@
   "author": "",
   "license": "MIT",
   "devDependencies": {
-    "@types/hapi": "^13.0.37",
-    "@types/joi": "^10.0.0",
+    "@types/hapi": "^17.0.4",
+    "@types/joi": "^13.0.5",
     "@types/lodash": "^4.14.36",
-    "@types/node": "^6.0.40",
+    "@types/node": "^9.4.6",
     "@types/xml2js": "0.0.32",
     "concurrently": "^2.2.0",
     "nodemon": "^1.11.0",
-    "ts-node": "^1.7.0",
-    "typescript": "^2.1.4"
+    "prettier": "^1.11.1",
+    "ts-node": "^5.0.0",
+    "tslint": "^5.9.1",
+    "tslint-config-prettier": "^1.9.0",
+    "typescript": "^2.7.2"
   },
   "dependencies": {
-    "@google-cloud/translate": "^0.6.0",
+    "@google-cloud/translate": "^1.1.0",
     "app-root-path": "^2.0.1",
-    "core-js": "^2.4.1",
-    "hapi": "^16.0.2",
-    "joi": "^10.1.0",
+    "hapi": "^17.2.1",
+    "joi": "^13.1.2",
     "lodash": "^4.16.1",
-    "watson-developer-cloud": "^2.14.3",
+    "watson-developer-cloud": "^3.0.7",
     "xml2js": "^0.4.17"
   }
 }
